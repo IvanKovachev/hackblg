@@ -19,7 +19,6 @@ class CreateGoalsTable extends Migration
             $table->integer('points')->unsigned();
             $table->string('title');
             $table->string('description');
-            $table->tinyInteger('difficulty');
             $table->boolean('is_money_saving');
             $table->dateTime('completed_on');
             $table->timestamps();

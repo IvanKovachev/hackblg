@@ -19,7 +19,6 @@ class CreateTreatsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->float('amount')->nullable();
-            $table->integer('points_needed')->unsigned();
             $table->boolean('is_expense');
             $table->dateTime('completed_on');
             $table->timestamps();

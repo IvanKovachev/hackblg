@@ -1,9 +1,35 @@
 
 // Fonts
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600);
 
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+.progress {
+  background-color: #555;
+
+  //div.text {
+  //  margin: 0 auto;
+  //  width: 50px;
+  //  text-align: center;
+  //}
+}
+
+li { list-style: none;}
+
+.task-main {
+  line-height: 32px;
+  font-size: 20px;
+
+  .action-item, .title {
+    cursor: pointer;
+  }
+
+  .title {
+    margin-left: 15px;
+  }
+}
+
