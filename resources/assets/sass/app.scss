@@ -8,6 +8,8 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+$border-bottom-color: #999;
+
 #items {
   padding-left: 0;
 }
@@ -39,6 +41,19 @@
 
 li { list-style: none;}
 
+.items-select-list {
+  margin-bottom: 15px;
+}
+
+.items-list {
+  padding-left: 0;
+
+  li {
+    margin-top: 15px;
+    border-bottom: 1px solid $border-bottom-color;
+  }
+}
+
 .item-main {
   line-height: 32px;
   font-size: 20px;
@@ -60,7 +75,7 @@ li { list-style: none;}
 
   &:not(:last-child) {
     margin-bottom: 15px;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid $border-bottom-color;
   }
 
   .item-edit {

@@ -26,7 +26,7 @@ class TasksController extends Controller
      */
     public function all()
     {
-        $tasks = Task::where('user_id', Auth::user()->id)
+        $tasks = Task::with('goals')->where('user_id', Auth::user()->id)
             ->whereNull('finished_on')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -66,7 +66,7 @@ class TasksController extends Controller
 
         $task->save();
 
-        return Task::find($task->id);
+        return Task::with('goals')->find($task->id);
     }
 
     /**

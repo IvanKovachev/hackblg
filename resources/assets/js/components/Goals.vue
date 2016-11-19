@@ -31,6 +31,23 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-xs-12 col-md-10">
+                        <select class="form-control items-select-list" v-model="newGoal.current_task">
+                            <option v-for="(task, taskIndex) in tasks" v-bind:value="taskIndex">{{task.title}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-md-2">
+                        <button class="btn btn-primary pull-right" v-on:click="addTask">add</button>
+                    </div>
+                </div>
+
+                <ul class="items-list">
+                    <li v-for="(task, taskIndex) in newGoal.tasks">
+                        {{task.title}} <span class="pull-right glyphicon glyphicon-trash"></span>
+                    </li>
+                </ul>
+
                 <div class="buttons">
                     <button class="btn btn-primary pull-right" v-on:click="addNew">save</button>
                     <button class="btn btn-default pull-right" v-on:click="cancelAdd">cancel</button>
@@ -101,18 +118,22 @@
     </div>
 </template>
 <style>
+
 </style>
 <script>
     export default{
         data() {
             return {
                 goals: [],
+                tasks: [],
                 newGoal: {
                     title: '',
                     description: '',
                     is_money_saving: false,
                     amount: 0.0,
-                    target_amount: 0.0
+                    target_amount: 0.0,
+                    tasks: [],
+                    current_task: -1
                 },
                 loaded: false,
                 addActive: false
@@ -124,10 +145,21 @@
         $(".container").removeClass("hide");
 
         this.$http.get('/goals/all').then(function (response) {
+        console.log(response.body);
             this.goals = response.body;
+        });
+
+        this.$http.get('/tasks/all').then(function (response) {
+            this.tasks = response.body;
         });
     },
     methods: {
+        addTask: function(){
+            if (this.newGoal.current_task >= 0) {
+                this.newGoal.tasks.unshift(this.tasks[this.newGoal.current_task]);
+                this.newGoal.current_task = -1;
+            }
+        },
         toggleEdit: function(ind) {
             let item = this.goals[ind];
             item.edit = !this.goals[ind].edit;
@@ -155,7 +187,11 @@
             this.newGoal = {
                 title: '',
                 description: '',
-                target_completions: 0
+                is_money_saving: false,
+                amount: 0.0,
+                target_amount: 0.0,
+                tasks: [],
+                current_task: -1
             };
 
             this.toggleAdd();

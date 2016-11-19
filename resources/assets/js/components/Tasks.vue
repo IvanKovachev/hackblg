@@ -44,9 +44,8 @@
                         </div>
 
                         <div v-if="task.target_completions > 0" class="progress">
-                            <div class="progress-bar" role="progressbar"  :style="'width: ' + ((task.completions/task.target_completions)*100) + '%;'">
-                                {{task.completions + '/' + task.target_completions}}
-                            </div>
+                            <div class="progress-bar" role="progressbar"  :style="'width: ' + ((task.completions/task.target_completions)*100) + '%;'"></div>
+                            <div class="progress-label">{{task.completions + '/' + task.target_completions}}</div>
                         </div>
 
                         <div :class="'collapse' + (task.edit?'in':'')" :id="'collapse-task-' + task.id">

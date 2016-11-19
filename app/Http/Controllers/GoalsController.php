@@ -26,7 +26,7 @@ class GoalsController extends Controller
      */
     public function all()
     {
-        $goals = Goal::where('user_id', Auth::user()->id)
+        $goals = Goal::with('tasks')->where('user_id', Auth::user()->id)
             ->whereNull('completed_on')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -63,7 +63,17 @@ class GoalsController extends Controller
 
         $goal->save();
 
-        return Goal::find($goal->id);
+        if (count($request->tasks) > 0) {
+            $tasksToSave = [];
+
+            foreach ($request->tasks as $task) {
+                $tasksToSave[] = $task['id'];
+            }
+
+            $goal->tasks()->attach($tasksToSave);
+        }
+
+        return Goal::with('tasks')->find($goal->id);
     }
 
     /**

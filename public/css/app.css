@@ -5786,6 +5786,15 @@ button.close {
 li {
   list-style: none; }
 
+.items-select-list {
+  margin-bottom: 15px; }
+
+.items-list {
+  padding-left: 0; }
+  .items-list li {
+    margin-top: 15px;
+    border-bottom: 1px solid #999; }
+
 .item-main {
   line-height: 32px;
   font-size: 20px; }
