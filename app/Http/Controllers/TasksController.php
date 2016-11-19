@@ -16,7 +16,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks.vue');
+        return view('tasks.index');
     }
 
     public function all()
@@ -94,7 +94,18 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+//        dd($request);
+        $task = Task::where('id', $request->id)
+            ->where('user_id', Auth::user()->id)
+            ->first();
+
+        $task->target_completions = $request->target_completions;
+        $task->title = $request->title;
+        $task->description = $request->description;
+
+        $task->save();
+
+        return $task;
     }
 
     /**

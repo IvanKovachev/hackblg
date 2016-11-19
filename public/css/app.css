@@ -5780,4 +5780,22 @@ li {
   .task-main .title {
     margin-left: 15px; }
 
+.task-item:not(:last-child) {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #999; }
+
+.task-item .task-edit {
+  position: relative;
+  padding-top: 20px; }
+  .task-item .task-edit .delete {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    cursor: pointer; }
+
+.task-item .buttons {
+  padding-top: 20px; }
+  .task-item .buttons .btn:not(:first-child) {
+    margin-right: 15px; }
+
 /*# sourceMappingURL=app.css.map */

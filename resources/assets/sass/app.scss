@@ -33,3 +33,31 @@ li { list-style: none;}
   }
 }
 
+.task-item{
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #999;
+  }
+
+  .task-edit {
+    position: relative;
+    padding-top: 20px;
+
+    .delete {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      cursor: pointer;
+    }
+  }
+  .buttons {
+    padding-top: 20px;
+
+    .btn:not(:first-child) {
+      margin-right: 15px;
+    }
+  }
+}
+
+

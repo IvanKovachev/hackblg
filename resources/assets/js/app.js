@@ -20,26 +20,69 @@ Vue.component('task-item', require('./components/TasksItem.vue'));
 const tasks = new Vue({
     el: '#app-tasks',
     data: {
-        tasks: []
+        tasks: [],
+        newTask: {
+            title: '',
+            description: '',
+            target_completions: 0
+        },
+        loaded: false,
+        addActive: false
     },
     created: function () {
-        console.log("pop");
-        // make sure you have vue-resource inlcued in your html head
+        this.loaded = true;
+
         this.$http.get('/tasks/all').then(function (response) {
             this.tasks = response.body;
-            console.log(response);
-        })
+        });
     },
     methods: {
-        doTask: function(el) {
-            // console.log(el, this);
-            let taskId = $(el.target).parents('.task-item').first().attr("data-id");
-            Task.doTask(taskId);
+        doTask: function(ind) {
+            let vm = this;
+            this.$http.post('/actions/doTask', {task_id: vm.tasks[ind].id}).then(function (response) {
+                Vue.set(this.tasks, ind, response.body);
+            });
         },
-        undoTask: function(el) {
-            // console.log(el, this);
-            let taskId = $(el.target).parents('.task-item').first().attr("data-id");
-            Task.undoTask(taskId);
+        undoTask: function(ind) {
+            let vm = this;
+            this.$http.post('/actions/undoTask', {task_id: vm.tasks[ind].id}).then(function (response) {
+                Vue.set(this.tasks, ind, response.body);
+            });
+        },
+        toggleEdit: function(ind) {
+            let item = this.tasks[ind];
+            item.edit = !this.tasks[ind].edit;
+            Vue.set(this.tasks, ind, item);
+        },
+        toggleAdd: function() {
+            this.addActive = !this.addActive;
+        },
+        saveTask: function(ind, el) {
+            let t = $(el.target);
+            let task = JSON.parse(JSON.stringify(this.tasks[ind]));
+            let vm = this;
+            this.$http.patch('/tasks/update', task).then(function (response) {
+                vm.toggleEdit(ind);
+            });
+        },
+        cancelAdd: function(){
+            this.newTask = {
+                title: '',
+                description: '',
+                target_completions: 0
+            };
+
+            this.toggleAdd();
+        },
+        addNew: function(){
+            let vm = this;
+            this.$http.post('/tasks', this.newTask).then(function (response) {
+                vm.toggleAdd();
+                vm.cancelAdd();
+
+                id (response.id && response.id > 0)
+                    vm.tasks.unshift(response);
+            });
         }
     }
 });
