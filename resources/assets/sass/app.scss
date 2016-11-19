@@ -8,8 +8,27 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+#items {
+  padding-left: 0;
+}
+
 .progress {
   background-color: #555;
+
+  .progress-label {
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    margin: 0 auto;
+    text-align: center;
+    width: 320px;
+    margin-top: -22px;
+  }
+
+  .progress-bar {
+    float: none;
+  }
 
   //div.text {
   //  margin: 0 auto;
@@ -20,7 +39,7 @@
 
 li { list-style: none;}
 
-.task-main {
+.item-main {
   line-height: 32px;
   font-size: 20px;
 
@@ -33,14 +52,18 @@ li { list-style: none;}
   }
 }
 
-.task-item{
+.list-item{
+
+  .glyphicon {
+    font-size: 16px;
+  }
 
   &:not(:last-child) {
     margin-bottom: 15px;
     border-bottom: 1px solid #999;
   }
 
-  .task-edit {
+  .item-edit {
     position: relative;
     padding-top: 20px;
 
@@ -51,12 +74,13 @@ li { list-style: none;}
       cursor: pointer;
     }
   }
-  .buttons {
-    padding-top: 20px;
+}
 
-    .btn:not(:first-child) {
-      margin-right: 15px;
-    }
+.buttons {
+  padding-top: 20px;
+
+  .btn:not(:first-child) {
+    margin-right: 15px;
   }
 }
 

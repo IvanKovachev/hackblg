@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
+use App\Goal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
+
 use Illuminate\Support\Facades\Auth;
 
-class TasksController extends Controller
+class GoalsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,22 +16,22 @@ class TasksController extends Controller
      */
     public function index()
     {
-        return view('tasks.index');
+        return view('goals.index');
     }
 
     /**
-     * Return all (non) completed tasks of the user
+     * Return all (non) completed goals of the user
      *
-     * @return Task collection
+     * @return Goal collection
      */
     public function all()
     {
-        $tasks = Task::where('user_id', Auth::user()->id)
-            ->whereNull('finished_on')
+        $goals = Goal::where('user_id', Auth::user()->id)
+            ->whereNull('completed_on')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return $tasks;
+        return $goals;
     }
 
     /**
@@ -41,7 +41,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        //
     }
 
     /**
@@ -52,21 +52,18 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request);
-        $task = new Task();
+        $goal = new Goal();
 
-        $task->user_id = Auth::user()->id;
-        $task->title = $request->title;
-        $task->description = $request->description;
-//        $task->is_recurring = $request->recurring_type>0 ? 1:0;
-//        $task->recurring_period = $request->recurring_period;
-//        $task->recurring_on_day = $request->recurring_on_day;
-//        $task->recurring_type = $request->recurring_type;
-        $task->target_completions = $request->target_completions;
+        $goal->user_id = Auth::user()->id;
+        $goal->title = $request->title;
+        $goal->description = $request->description;
+        $goal->is_money_saving = $request->is_money_saving;
+        $goal->amount = $request->amount;
+        $goal->target_amount = $request->target_amount;
 
-        $task->save();
+        $goal->save();
 
-        return Task::find($task->id);
+        return Goal::find($goal->id);
     }
 
     /**
@@ -100,18 +97,26 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-//        dd($request);
-        $task = Task::where('id', $request->id)
+        $goal = Goal::where('id', $request->id)
             ->where('user_id', Auth::user()->id)
             ->first();
 
-        $task->target_completions = $request->target_completions;
-        $task->title = $request->title;
-        $task->description = $request->description;
+        $goal->is_money_saving = $request->is_money_saving;
 
-        $task->save();
+        if ($request->is_money_saving) {
+            $goal->amount = $request->amount;
+            $goal->target_amount = $request->target_amount;
+        } else {
+            $goal->amount = 0.0;
+            $goal->target_amount = 0.0;
+        }
 
-        return $task;
+        $goal->title = $request->title;
+        $goal->description = $request->description;
+
+        $goal->save();
+
+        return $goal;
     }
 
     /**
@@ -122,7 +127,7 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        $task = Task::where('id', $id)
+        $goal = Goal::where('id', $id)
             ->where('user_id', Auth::user()->id)
             ->delete();
     }

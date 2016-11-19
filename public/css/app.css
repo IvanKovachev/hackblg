@@ -5766,36 +5766,53 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+#items {
+  padding-left: 0; }
+
 .progress {
   background-color: #555; }
+  .progress .progress-label {
+    display: block;
+    height: 22px;
+    line-height: 22px;
+    color: #fff;
+    margin: 0 auto;
+    text-align: center;
+    width: 320px;
+    margin-top: -22px; }
+  .progress .progress-bar {
+    float: none; }
 
 li {
   list-style: none; }
 
-.task-main {
+.item-main {
   line-height: 32px;
   font-size: 20px; }
-  .task-main .action-item, .task-main .title {
+  .item-main .action-item, .item-main .title {
     cursor: pointer; }
-  .task-main .title {
+  .item-main .title {
     margin-left: 15px; }
 
-.task-item:not(:last-child) {
+.list-item .glyphicon {
+  font-size: 16px; }
+
+.list-item:not(:last-child) {
   margin-bottom: 15px;
   border-bottom: 1px solid #999; }
 
-.task-item .task-edit {
+.list-item .item-edit {
   position: relative;
   padding-top: 20px; }
-  .task-item .task-edit .delete {
+  .list-item .item-edit .delete {
     position: absolute;
     top: -10px;
     right: 10px;
     cursor: pointer; }
 
-.task-item .buttons {
+.buttons {
   padding-top: 20px; }
-  .task-item .buttons .btn:not(:first-child) {
+  .buttons .btn:not(:first-child) {
     margin-right: 15px; }
 
 /*# sourceMappingURL=app.css.map */

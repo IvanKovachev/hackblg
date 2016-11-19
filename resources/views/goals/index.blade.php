@@ -4,7 +4,7 @@
     <div class="container hide" id="app-main">
         <div class="row" v-if="loaded">
             <div class="col-sm-12">
-                <tasks></tasks>
+                <goals></goals>
             </div>
         </div>
     </div>

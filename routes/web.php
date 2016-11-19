@@ -22,6 +22,9 @@ Route::get('/home', 'HomeController@index');
 Route::get('tasks/all', 'TasksController@all');
 Route::resource('tasks', 'TasksController');
 
+Route::get('goals/all', 'GoalsController@all');
+Route::resource('goals', 'GoalsController');
+
 Route::group(['prefix' => 'actions'], function () {
     Route::post('doTask', 'ActionsController@doTask');
     Route::post('undoTask', 'ActionsController@undoTask');
