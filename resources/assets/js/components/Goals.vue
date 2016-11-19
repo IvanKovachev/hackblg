@@ -80,7 +80,10 @@
 
                         <div :class="'collapse' + (goal.edit?'in':'')" :id="'collapse-goal-' + goal.id">
 
-                            <div v-if="!goal.edit">{{goal.description}}</div>
+                            <div v-if="!goal.edit">
+                                {{goal.description}}
+                            </div>
+
                             <div v-if="goal.edit" class="item-edit form-group">
                                 <div class="delete" v-on:click="deleteTask(index, $event)"><span class="glyphicon glyphicon-trash"></span></div>
                                 <textarea class="form-control" v-model="goals[index].description"></textarea>
@@ -108,6 +111,19 @@
                                     <button class="btn btn-primary pull-right" v-on:click="saveTask(index, $event)">Save</button>
                                     <button class="btn btn-default pull-right" v-on:click="toggleEdit(index)">Cancel</button>
                                 </div>
+                            </div>
+
+                            <div v-if="goal.tasks.length > 0" class="linked-items well">
+                                <h4>Linked tasks:</h4>
+                                <ul class="items-list">
+                                    <li v-for="(task, taskIndex) in goal.tasks">
+                                        {{task.title}} <span v-if="goal.edit" v-on:click="removeTaskFromGoal(taskIndex, index)" class="pull-right glyphicon glyphicon-trash"></span>
+                                        <div v-if="task.target_completions > 0" class="progress">
+                                            <div class="progress-bar" role="progressbar"  :style="'width: ' + ((task.completions/task.target_completions)*100) + '%;'"></div>
+                                            <div class="progress-label">{{task.completions + '/' + task.target_completions}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -204,7 +220,11 @@
                 if (response.body.id && response.body.id > 0)
                     vm.goals.unshift(response.body);
             });
+        },
+        removeTaskFromGoal: function(taskInd, goalInd) {
+        console.log(taskInd, goalInd);
+            this.goals[goalInd].tasks.splice(taskInd, 1);
         }
     }
-    }
+}
 </script>
