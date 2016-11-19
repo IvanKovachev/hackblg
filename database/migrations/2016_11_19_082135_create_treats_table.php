@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpensesHistoryTable extends Migration
+class CreateTreatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,20 @@ class CreateExpensesHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses_history', function (Blueprint $table) {
+        Schema::create('treats', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('income_stream_id')->unsigned()->nullable();
             $table->string('title');
             $table->string('description');
-            $table->boolean('is_recurring');
-            $table->date('expense_date');
+            $table->float('amount')->nullable();
+            $table->integer('points_needed')->unsigned();
+            $table->boolean('is_expense');
+            $table->dateTime('completed_on');
             $table->timestamps();
 
             $table->index('user_id');
-            $table->index('expense_date');
-            $table->index('income_stream_id');
+            $table->index('is_expense');
+            $table->index('completed_on');
         });
     }
 
@@ -36,6 +37,6 @@ class CreateExpensesHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses_history');
+        Schema::dropIfExists('treats');
     }
 }

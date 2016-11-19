@@ -22,6 +22,9 @@ class CreatePaymentsHistoryTable extends Migration
             $table->boolean('is_recurring');
             $table->date('payment_date');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('payment_date');
         });
     }
 

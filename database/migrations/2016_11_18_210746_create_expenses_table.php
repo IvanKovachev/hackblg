@@ -25,6 +25,9 @@ class CreateExpensesTable extends Migration
             $table->tinyInteger('recurring_on_day')->nullable(); // day of month or week
             $table->date('next_expense_date'); // when is the next day to expense it - can be used for non recurring too - e.g. expected expense
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('next_expense_date');
         });
     }
 

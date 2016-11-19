@@ -16,11 +16,16 @@ class CreateGoalsTable extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->integer('points')->unsigned();
             $table->string('title');
             $table->string('description');
             $table->tinyInteger('difficulty');
             $table->boolean('is_money_saving');
+            $table->dateTime('completed_on');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('is_money_saving');
         });
     }
 

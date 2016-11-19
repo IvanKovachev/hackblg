@@ -16,7 +16,6 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('goal_id')->unsigned()->nullable();
             $table->boolean('is_habit');
             $table->string('title');
             $table->string('description');
@@ -26,7 +25,11 @@ class CreateTasksTable extends Migration
             $table->tinyInteger('recurring_start_day')->nullable();
             $table->tinyInteger('difficulty');
             $table->boolean('can_expire');
+            $table->dateTime('completed_on');
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('is_recurring');
         });
     }
 

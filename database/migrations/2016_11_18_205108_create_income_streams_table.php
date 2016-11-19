@@ -25,6 +25,9 @@ class CreateIncomeStreamsTable extends Migration
             $table->tinyInteger('recurring_on_day')->nullable(); // day of month or week
             $table->date('next_payment_date'); // when is the next day to receive it - can be used for non recurring too - e.g. expected income
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('next_payment_date');
         });
     }
 
