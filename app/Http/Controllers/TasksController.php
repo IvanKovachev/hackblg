@@ -24,12 +24,19 @@ class TasksController extends Controller
      *
      * @return Task collection
      */
-    public function all()
+    public function all($filter = 'all')
     {
-        $tasks = Task::with('goals')->where('user_id', Auth::user()->id)
-            ->whereNull('finished_on')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $taskQuery = Task::with('goals')->where('user_id', Auth::user()->id);
+
+        if ($filter == 'active') {
+            $taskQuery->whereNull('finished_on');
+        } else if ($filter == 'completed') {
+            $taskQuery->whereNotNull('finished_on');
+        }
+
+        $taskQuery->orderBy('created_at', 'desc');
+
+        $tasks = $taskQuery->get();
 
         return $tasks;
     }

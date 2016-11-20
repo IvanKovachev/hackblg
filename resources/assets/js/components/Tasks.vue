@@ -2,6 +2,11 @@
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
             <h3>Tasks <button v-if="!addActive" class="btn btn-sm btn-success pull-right" v-on:click="toggleAdd">New Task</button></h3>
+            <div class="filters-holder">
+                <span v-bind:class="{ active: hash=='all' }" v-on:click="showTasks('all')">all</span>
+                | <span v-bind:class="{ active: hash=='active' }" v-on:click="showTasks('active')">active</span>
+                | <span v-bind:class="{ active: hash=='completed' }" v-on:click="showTasks('completed')">completed</span>
+            </div>
             <div v-if="addActive">
                 <div class="form-group">
                     <label for="title">Title</label>
@@ -33,7 +38,11 @@
                                 <span title="Do Task" v-on:click="doTask(index)" class="glyphicon do-task action-item glyphicon-plus"></span>
                                 <span title="Undo Task" v-on:click="undoTask(index)" class="glyphicon undo-task action-item glyphicon-minus"></span>
                             </div>
-                            <div v-if="!task.edit" class="title pull-left" data-toggle="collapse" :data-target="'#collapse-task-'+ task.id">{{task.title}}</div>
+                            <div v-if="!task.edit" class="title pull-left" data-toggle="collapse" :data-target="'#collapse-task-'+ task.id">
+                                {{task.title}}
+                                <span v-if="task.completions >= task.target_completions">(<span class="glyphicon glyphicon-ok completed-item"></span>)</span>
+                            </div>
+
                             <div v-if="task.edit" class="title pull-left form-group">
 
                                 <input type="text" class="form-control" v-model="tasks[index].title">
@@ -44,7 +53,7 @@
                         </div>
 
                         <div v-if="task.target_completions > 0" class="progress">
-                            <div class="progress-bar" role="progressbar"  :style="'width: ' + ((task.completions/task.target_completions)*100) + '%;'"></div>
+                            <div v-bind:class="{complete: task.completions >= task.target_completions}" class="progress-bar" role="progressbar"  :style="'width: ' + ((task.completions/task.target_completions)*100) + '%;'"></div>
                             <div class="progress-label">{{task.completions + '/' + task.target_completions}}</div>
                         </div>
 
@@ -81,18 +90,35 @@
                 newTask: {
                     title: '',
                     description: '',
-                    target_completions: 0
+                    target_completions: 1
                 },
                 loaded: false,
-                addActive: false
+                addActive: false,
+                hash: 'all'
         }
     },
     created: function(){
-        this.$http.get('/tasks/all').then(function (response) {
-            this.tasks = response.body;
-        });
+        this.getHash();
+        console.log(this.hash);
+
+        this.loadTasks();
     },
     methods: {
+        getHash: function(){
+            this.hash = window.location.hash.replace('#', '');
+            this.hash = this.hash != ''? this.hash:'all';
+        },
+        loadTasks: function(){
+            this.$http.get('/tasks/all/' + this.hash).then(function (response) {
+                this.tasks = response.body;
+            });
+        },
+        showTasks: function(filter) {
+            console.log(filter);
+            window.location.href = '#' + filter;
+            this.hash = filter;
+            this.loadTasks();
+        },
         doTask: function(ind) {
             let vm = this;
             this.$http.post('/actions/doTask', {task_id: vm.tasks[ind].id}).then(function (response) {

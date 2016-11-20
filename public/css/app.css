@@ -5782,6 +5782,25 @@ button.close {
     margin-top: -22px; }
   .progress .progress-bar {
     float: none; }
+    .progress .progress-bar.complete {
+      background-color: #5cb85c; }
+
+.completed-item {
+  color: #5cb85c; }
+
+.collapse div {
+  font-size: 18px; }
+
+.main-page-home {
+  font-size: 50px; }
+
+.nav a.active {
+  font-weight: 700;
+  color: dodgerblue; }
+
+.money-ops {
+  margin-bottom: 15px;
+  margin-top: 10px; }
 
 li {
   list-style: none; }
@@ -5802,6 +5821,13 @@ li {
     cursor: pointer; }
   .item-main .title {
     margin-left: 15px; }
+
+.filters-holder span {
+  cursor: pointer; }
+
+.filters-holder .active {
+  font-weight: 700;
+  color: dodgerblue; }
 
 .list-item .glyphicon {
   font-size: 16px; }

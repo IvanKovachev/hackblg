@@ -19,13 +19,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('tasks/all', 'TasksController@all');
+Route::get('tasks/all/{filter?}', 'TasksController@all');
 Route::resource('tasks', 'TasksController');
 
-Route::get('goals/all', 'GoalsController@all');
+Route::get('goals/all/{filter?}', 'GoalsController@all');
 Route::resource('goals', 'GoalsController');
 
 Route::group(['prefix' => 'actions'], function () {
     Route::post('doTask', 'ActionsController@doTask');
     Route::post('undoTask', 'ActionsController@undoTask');
+    Route::post('completeGoal', 'ActionsController@completeGoal');
+    Route::post('uncompleteGoal', 'ActionsController@uncompleteGoal');
+    Route::post('depositMoney', 'ActionsController@depositMoney');
+    Route::post('withdrawMoney', 'ActionsController@withdrawMoney');
 });

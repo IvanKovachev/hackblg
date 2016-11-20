@@ -24,12 +24,19 @@ class GoalsController extends Controller
      *
      * @return Goal collection
      */
-    public function all()
+    public function all($filter = 'all')
     {
-        $goals = Goal::with('tasks')->where('user_id', Auth::user()->id)
-            ->whereNull('completed_on')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $goalQuery = Goal::with('tasks')->where('user_id', Auth::user()->id);
+
+        if ($filter == 'active') {
+            $goalQuery->whereNull('completed_on');
+        } else if ($filter == 'completed') {
+            $goalQuery->whereNotNull('completed_on');
+        }
+
+        $goalQuery->orderBy('created_at', 'desc');
+
+        $goals = $goalQuery->get();
 
         return $goals;
     }
@@ -107,7 +114,7 @@ class GoalsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $goal = Goal::where('id', $request->id)
+        $goal = Goal::with('tasks')->where('id', $request->id)
             ->where('user_id', Auth::user()->id)
             ->first();
 
@@ -125,6 +132,23 @@ class GoalsController extends Controller
         $goal->description = $request->description;
 
         $goal->save();
+
+        if (count($request->tasks) > 0) {
+            $tasksToRemove = [];
+            $tasksToSave = [];
+
+            foreach ($goal->tasks as $task) {
+                $tasksToRemove[] = $task->id;
+            }
+
+            $goal->tasks()->detach($tasksToRemove);
+
+            foreach ($request->tasks as $task) {
+                $tasksToSave[] = $task['id'];
+            }
+
+            $goal->tasks()->attach($tasksToSave);
+        }
 
         return $goal;
     }

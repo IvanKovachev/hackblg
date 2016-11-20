@@ -53,10 +53,11 @@
                             <li><a href="{{ url('/login') }}">Login</a></li>
                             <li><a href="{{ url('/register') }}">Register</a></li>
                         @else
-                            <li><a href="{{url('/tasks')}}">Tasks</a></li>
-                            <li><a href="{{url('/goals')}}">Goals</a></li>
-                            <li><a href="{{url('/budget')}}">Budget</a></li>
-                            <li><a href="{{url('#')}}">|</a></li>
+                            <li><a @if (Route::getCurrentRoute()->getPath('tasks')) class="active" @endif href="{{url('/tasks')}}">Tasks</a></li>
+                            <li><a @if (Route::getCurrentRoute()->getPath('goals')) class="active" @endif href="{{url('/goals')}}">Goals</a></li>
+                            {{--<li><a href="{{url('/budget')}}">Budget</a></li>--}}
+                            <li class="hidden-xs"><a href="{{url('#')}}">|</a></li>
+                            <li class="visible-sm visible-xs"><a href="{{url('#')}}"><hr></a></li>
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

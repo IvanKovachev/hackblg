@@ -9,6 +9,8 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 $border-bottom-color: #999;
+$completed-green: #5cb85c;
+$active-color: dodgerblue;
 
 #items {
   padding-left: 0;
@@ -30,13 +32,40 @@ $border-bottom-color: #999;
 
   .progress-bar {
     float: none;
-  }
 
+    &.complete {
+      background-color: $completed-green;
+    }
+  }
   //div.text {
   //  margin: 0 auto;
   //  width: 50px;
   //  text-align: center;
   //}
+}
+
+.completed-item {
+  color: $completed-green;
+}
+
+.collapse {
+   div {font-size: 18px;}
+}
+
+.main-page-home {
+  font-size: 50px;
+}
+
+.nav {
+  a.active {
+    font-weight: 700;
+    color: $active-color;
+  }
+}
+
+.money-ops {
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 
 li { list-style: none;}
@@ -64,6 +93,16 @@ li { list-style: none;}
 
   .title {
     margin-left: 15px;
+  }
+}
+
+.filters-holder {
+  span {
+    cursor: pointer;
+  }
+  .active {
+    font-weight: 700;
+    color: $active-color;
   }
 }
 
