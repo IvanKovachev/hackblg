@@ -158,7 +158,7 @@
             this.newTask = {
                 title: '',
                 description: '',
-                target_completions: 0
+                target_completions: 1
             };
 
             this.toggleAdd();
