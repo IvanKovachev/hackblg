@@ -165,6 +165,17 @@
         },
         addNew: function(){
             let vm = this;
+
+            if (this.newTask.title == '') {
+                alert("Please fill in the title");
+                return false;
+            }
+
+            if (this.newTask.target_completions < 1) {
+                alert("Target completions need to be greater than 0");
+                return false;
+            }
+
             this.$http.post('/tasks', this.newTask).then(function (response) {
                 vm.cancelAdd();
 

@@ -327,6 +327,12 @@
         },
         addNew: function(){
             let vm = this;
+
+            if (this.newGoal.title == '') {
+                alert("Please fill in the title");
+                return false;
+            }
+
             this.$http.post('/goals', this.newGoal).then(function (response) {
                 vm.cancelAdd();
 
